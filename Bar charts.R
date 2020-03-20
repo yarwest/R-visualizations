@@ -6,26 +6,36 @@
 install.packages("ggplot2")
 library(ggplot2)
 
+colors <- c("#f7bb3d","#cd5038")
+countries <- c("Hungary", "Poland")
+
 # Labels, the labels for the individual bars (vector)
 # Grouplabels, the labels for each group of bars (vector)
 # Data, the data for all bars (vector)
 # y, min and max value for y axis (vector)
 barPlot <- function(labels, groupLabels, data, y) {
-  colors <- c("#f7bb3d","#cd5038")
-  countries <- c("Hungary", "Poland")
+  nQuestions <- length(groupLabels)
+  
+  # Data points per country per question
+  nDataPCPQ <- (length(data)/length(countries))/nQuestions
   
   df <- data.frame(
     x=labels,
-    y=data
+    y=data,
+    Countries=
+      rep(
+        c(
+          rep(countries[1], nDataPCPQ),
+          rep(countries[2], nDataPCPQ)
+        ), nQuestions)
   )
 
   groupStarts <- seq(1, 1 + (7 * ((length(data)/4)-1)), by=7)
   xSeq <- unlist(lapply(groupStarts, FUN=function(x){c(unlist(seq(from=x, to=x+1, by=1)), unlist(seq(from=x+3, to=x+4, by=1)))}))
   iGroups <- 1:length(groupStarts)
   xGroups <- unlist(lapply(iGroups, FUN=function(x){mean(xSeq[(1 + (4*(x-1))):(4 + (4*(x-1)))])}))
-  colorSeq <- rep(c(colors[1],colors[1],colors[2],colors[2]), length(data)/4)
   
-  ggplot(data=transform(df, x=xSeq), aes(x=x, y=y, fill=colorSeq)) +
+  ggplot(data=transform(df, x=xSeq), aes(x=x, y=y, fill=Countries)) +
     geom_histogram(stat = "identity") + labs(x="", y="") +
     scale_x_discrete(breaks = NULL) +
     geom_text(aes(x=xSeq, y=df$y, label=df$y), vjust=-1) +
@@ -33,9 +43,7 @@ barPlot <- function(labels, groupLabels, data, y) {
     scale_x_continuous(breaks=xGroups, labels=groupLabels) +
     scale_y_continuous(limits = y) +
     theme(text = element_text(size=15)) +
-    scale_fill_discrete(name="Countries",
-                        breaks=colors,
-                        labels=countries)
+    scale_fill_manual(values=colors)
 }
 
 ## question 1
