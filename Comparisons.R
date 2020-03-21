@@ -56,6 +56,15 @@ timeLinePlot <- function(data, yearsParam, titleParam, xLabel="", yLabel="", yAx
     }
   }
   
+  recessionLine <- function(xRecession) {
+    if(xRecession > 0) {
+      return(c(
+        geom_vline(xintercept=xRecession, col="Black", lty=3, lwd=2),
+        annotate("text", x=xRecession, label="Recession", vjust=-1, y=annotationY, angle=90, color="#4C4D4D", size=5)
+      ))
+    }
+  }
+  
   if(!is.na(y[2])) {
     annotationY <- y[2] - (y[2]*0.1)
   } else {
@@ -79,8 +88,7 @@ timeLinePlot <- function(data, yearsParam, titleParam, xLabel="", yLabel="", yAx
     geom_line(size=1) +
     geom_point(size=2) +
     zeroLine(df) +
-    geom_vline(xintercept=xRecession, col="Black", lty=3, lwd=2) +
-    annotate("text", x=xRecession, label="Recession", vjust=-1, y=annotationY, angle=90, color="#4C4D4D", size=5) +
+    recessionLine(xRecession) +
     lapply(X=verticalLines, FUN=drawVerticalLines) +
     ggtitle(titleParam) +
     labs(x=xLabel, y=yLabel) +
