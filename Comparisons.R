@@ -173,3 +173,20 @@ timeLinePlot(
   yAxisLabels = possibleAnswers,
   verticalLines=list(list(x=5,label="Fidesz won election"), list(x=7.5,label="PiS won election")),
   y=c(0,10))
+
+######################
+# Comparison Press Freedom Poland and Hungary
+######################
+
+PressFreedomHU <- c(56, 64, 65, 67, 71, 73, 87)
+PressFreedomPL <- c(22, 19, 18, 47, 54, 58, 59)
+
+timeLinePlot(
+  data=list(PressFreedomHU, PressFreedomPL),
+  yearsParam=2013:2019,
+  titleParam="Comparison Press Freedom Poland and Hungary",
+  xLabel = "Years",
+  yLabel = "Ranking (out of 180)",
+  verticalLines=list(list(x=2,label="PiS won election")),
+  xRecession=-1,
+  y=c(0,90))
