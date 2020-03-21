@@ -7,8 +7,8 @@ install.packages("ggplot2")
 library(ggplot2)
 
 quarters <- c('Q1','Q2','Q3','Q4')
-countries <- c("Hungary", "Poland")
-colors <- c("#f7bb3d","#cd5038")
+countries <- c("Poland", "Hungary")
+colors <- c("#cd5038","#f7bb3d")
 
 # Function for generating yearly or quarterly labels
 # Pass years as a vector
@@ -99,8 +99,8 @@ realGDPChangePerQuarterPL <- c(1.5, 2.3, 1.7, -1.4, 4.5, 1.2, 1.7, 1.3, 2.0, 0.4
 timeLinePlot(
   data=list(realGDPChangePerQuarterPL),
   yearsParam=2006:2015,
-  country=countries[2],
-  color=colors[2],
+  country=countries[1],
+  color=colors[1],
   titleParam="Real GDP growth rate per quarter in Poland",
   xLabel="Quarters",
   yLabel="GDP growth rate (in %)",
@@ -114,8 +114,8 @@ realGDPChangePerYearPL <- c(7.0, 4.2, 2.8, 3.6, 5.0, 1.6, 1.4, 3.3, 3.8)
 timeLinePlot(
   data=list(realGDPChangePerYearPL),
   yearsParam=2007:2015,
-  country=countries[2],
-  color=colors[2],
+  country=countries[1],
+  color=colors[1],
   titleParam="Real GDP growth rate per year in Poland",
   xLabel="Years",
   yLabel="GDP growth rate (in %)",
@@ -133,12 +133,12 @@ realGDPChangePerQuarterHU <- c(0.9,1.3,0.6,0.9,-1.3,-0.1,0.6,0.4,0.8,0.5,-0.2,-3
 timeLinePlot(
   data=list(realGDPChangePerQuarterHU),
   yearsParam=2006:2015,
-  country=countries[1],
-  color=colors[1],
+  country=countries[2],
+  color=colors[2],
   titleParam="Real GDP growth rate per quarter in Hungary",
   xLabel="Quarters",
   yLabel="GDP growth rate (in %)",
-  verticalLines=list(list(x=17,label="Fidesz won election")),
+  verticalLines=list(list(x=18,label="Fidesz won election")),
   xRecession=9)
 
 ######################
@@ -149,8 +149,8 @@ realGDPChangePerYearHU <- c(0.2, 1.1, -6.7, 0.7, 1.8, -1.5, 2.0, 4.2, 3.8)
 timeLinePlot(
   data=list(realGDPChangePerYearHU),
   yearsParam=2007:2015,
-  country=countries[1],
-  color=colors[1],
+  country=countries[2],
+  color=colors[2],
   titleParam="Real GDP growth rate per year in Hungary",
   xLabel="Years",
   yLabel="GDP growth rate (in %)",

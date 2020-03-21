@@ -7,8 +7,8 @@ install.packages("ggplot2")
 library(ggplot2)
 
 quarters <- c('Q1','Q2','Q3','Q4')
-countries <- c("Hungary", "Poland")
-colors <- c("#f7bb3d","#cd5038")
+countries <- c("Poland", "Hungary")
+colors <- c("#cd5038","#f7bb3d")
 
 # Function for generating yearly or quarterly labels
 # Pass years as a vector
@@ -108,46 +108,63 @@ timeLinePlot <- function(data, yearsParam, titleParam, xLabel="", yLabel="", yAx
 }
 
 ######################
-# Comparison real GDP change per quarter in percentage Hungary and Poland
+# Comparison real GDP change per quarter in percentage Poland and Hungary
 ######################
 
-realGDPChangePerQuarterHU <- c(0.9,1.3,0.6,0.9,-1.3,-0.1,0.6,0.4,0.8,0.5,-0.2,-3.2,-4.2,-0.2,0.0,0.0,-0.2,0.7,0.6,0.1,0.9,0.0,0.3,0.9,-2.0,-0.3,0.4,-0.2,0.6,0.9,1.3,1.1,0.8,1.3,0.9,0.6,1.7,0.2,0.7,1.0)
 realGDPChangePerQuarterPL <- c(1.5, 2.3, 1.7, -1.4, 4.5, 1.2, 1.7, 1.3, 2.0, 0.4, -0.4, 0.3, 1.7, 0.0, 0.6, 2.4, -0.6, 1.5, 1.4, 1.0, 1.3, 1.3, 1.3, 0.8, 0.1, -0.2, 0.4, -0.4, 0.2, 1.1, 0.8, 0.1, 1.1, 1.1, 0.8, 0.6, 1.2, 0.7, 1.2, 1.2)
+realGDPChangePerQuarterHU <- c(0.9,1.3,0.6,0.9,-1.3,-0.1,0.6,0.4,0.8,0.5,-0.2,-3.2,-4.2,-0.2,0.0,0.0,-0.2,0.7,0.6,0.1,0.9,0.0,0.3,0.9,-2.0,-0.3,0.4,-0.2,0.6,0.9,1.3,1.1,0.8,1.3,0.9,0.6,1.7,0.2,0.7,1.0)
+
 timeLinePlot(
-  data=list(realGDPChangePerQuarterHU, realGDPChangePerQuarterPL),
+  data=list(realGDPChangePerQuarterPL, realGDPChangePerQuarterHU),
   yearsParam=2006:2015,
-  titleParam="Real GDP growth rate per quarter Hungary and Poland",
+  titleParam="Real GDP growth rate per quarter Poland and Hungary",
   xLabel="Quarters",
   yLabel="GDP growth rate (in %)",
-  verticalLines=list(list(x=17,label="Fidesz won election")),
+  verticalLines=list(list(x=18,label="Fidesz won election")),
   xRecession=9)
 
 ######################
-# Comparison unemployment rate per quarter Hungary and Poland
+# Comparison Gross Disposable Income of Households in real terms per capita Poland and Hungary
 ######################
 
-unemploymentRateHU <- c(7.7, 7.2, 7.5, 7.5, 7.5, 7.0, 7.3, 7.8, 8.0, 7.6, 7.7, 8.0, 9.8, 9.6, 10.3, 10.4, 11.8, 11.2, 10.8, 10.8, 11.8, 10.9, 10.7, 10.7, 11.9, 11.0, 10.5, 10.6, 11.6, 10.2, 9.8, 9.1, 8.3, 8.1, 7.4, 7.1, 7.8, 6.9, 6.4, 6.2)
-unemploymentRatePL <- c(16.1, 14.1, 13.1, 12.2, 11.3, 9.6, 9.0, 8.5, 8.1, 7.1, 6.6, 6.7, 8.3, 7.9, 8.1, 8.5, 10.6, 9.6, 9.2, 9.3, 10.1, 9.5, 9.3, 9.8, 10.5, 9.9, 9.9, 10.1, 11.3, 10.5, 9.8, 9.8, 10.6, 9.1, 8.2, 8.1, 8.6, 7.4, 7.1, 6.9)
+GDIHouseholdsPL <- c(20002, 21026,	21960,	23035,	23505,	23591,	23842,	24195,	24897,	25837)
+GDIHouseholdsHU <- c(1738129,	1686716,	1655776,	1594416,	1566814,	1628180,	1579022,	1614380,	1669150,	1736426)
 
 timeLinePlot(
-  data=list(unemploymentRateHU, unemploymentRatePL),
+  data=list(GDIHouseholdsPL, GDIHouseholdsHU),
   yearsParam=2006:2015,
-  titleParam="Comparison unemployment rate per quarter Hungary and Poland",
+  titleParam="Gross Disposable Income of Households in real terms per capita Poland and Hungary",
   xLabel="Years",
-  yLabel="Unemployment rate (in %)",
-  verticalLines=list(list(x=17,label="Fidesz won election")),
+  yLabel="Gross disposable income (in Units of National Currency)",
+  verticalLines=list(list(x=18,label="Fidesz won election")),
   xRecession=9)
 
 ######################
-# Mean Comparison Satisfaction National Economy Hungary and Poland_Only PiS and Fidesz
+# Comparison Employment rate Poland and Hungary
 ######################
 
-meanSatisfactionEconomyHUFidesz <- c(3.94, 2.76, 2.17, 1.4, 3.48, 3.88, 4.88, 5.95)
+employmentRatePL <- c(63.4, 63.4, 63.5, 63.2, 63.0, 63.2, 63.1, 63.3, 63.7, 63.7, 63.9, 64.1, 64.6, 64.5, 64.9, 64.9, 65.1, 65.3, 65.5, 65.4, 65.4, 65.7, 65.8, 66.0, 66.2, 66.5, 66.5, 66.8, 66.6, 67.0, 67.1, 67.3, 67.7, 67.8, 67.9, 68.0, 68.1, 67.9, 68.1, 68.2)
+employmentRateHU <- c(61.9, 62.0, 61.9, 62.2, 61.9, 61.7, 61.5, 61.5, 61.1, 61.0, 61.4, 61.3, 61.1, 61.2, 61.1, 61.4, 61.7, 61.9, 62.0, 62.0, 62.0, 62.3, 62.5, 62.7, 63.0, 63.6, 64.1, 64.2, 63.8, 64.6, 65.0, 65.4, 66.5, 66.8, 67.2, 67.4, 68.1, 68.5, 68.9, 69.1)
+
+timeLinePlot(
+  data=list(employmentRatePL, employmentRateHU),
+  yearsParam=2006:2015,
+  titleParam="Employment rate per quarter Poland and Hungary",
+  xLabel="Years",
+  yLabel="Employment rate (in %)",
+  verticalLines=list(list(x=18,label="Fidesz won election")),
+  xRecession=9)
+
+######################
+# Mean Comparison Satisfaction National Economy Poland and Hungary_Only PiS and Fidesz
+######################
+
 meanSatisfactionEconomyPLPiS <- c(2.81, 3.47, 4.33, 4.04, 3.84, 3.44, 3.62, 5.46)
+meanSatisfactionEconomyHUFidesz <- c(3.94, 2.76, 2.17, 1.4, 3.48, 3.88, 4.88, 5.95)
 possibleAnswers <- c("Extremely\ndissatisfied", "1", "2", "3", "4", "5", "6", "7", "8", "9", "Extremely\nsatisfied")
 
 timeLinePlot(
-  data=list(meanSatisfactionEconomyHUFidesz, meanSatisfactionEconomyPLPiS),
+  data=list(meanSatisfactionEconomyPLPiS, meanSatisfactionEconomyHUFidesz),
   yearsParam=2002:2016,
   titleParam="Satisfaction National Economy PiS and Fidesz",
   xLabel = "Years",
@@ -157,17 +174,17 @@ timeLinePlot(
   y=c(0,10))
 
 ######################
-# Mean Comparison Satisfaction National Economy Hungary and Poland_Total N
+# Mean Comparison Satisfaction National Economy Poland and Hungary_Total N
 ######################
 
-meanSatisfactionEconomyHU <- c(4.09, 3.19, 2.86, 1.7, 3.19, 3.37, 3.8, 4.81)
 meanSatisfactionEconomyPL <- c(2.77, 3.19, 4.09, 4.45, 4.43, 4.19, 4.08, 4.84)
+meanSatisfactionEconomyHU <- c(4.09, 3.19, 2.86, 1.7, 3.19, 3.37, 3.8, 4.81)
 possibleAnswers <- c("Extremely\ndissatisfied", "1", "2", "3", "4", "5", "6", "7", "8", "9", "Extremely\nsatisfied")
 
 timeLinePlot(
-  data=list(meanSatisfactionEconomyHU, meanSatisfactionEconomyPL),
+  data=list(meanSatisfactionEconomyPL, meanSatisfactionEconomyHU),
   yearsParam=2002:2016,
-  titleParam="Satisfaction National Economy Hungary and Poland",
+  titleParam="Satisfaction National Economy Poland and Hungary",
   xLabel = "Years",
   yLabel = "Satisfaction (Mean Value)",
   yAxisLabels = possibleAnswers,
@@ -178,13 +195,13 @@ timeLinePlot(
 # Comparison Press Freedom Poland and Hungary
 ######################
 
-PressFreedomHU <- c(56, 64, 65, 67, 71, 73, 87)
 PressFreedomPL <- c(22, 19, 18, 47, 54, 58, 59)
+PressFreedomHU <- c(56, 64, 65, 67, 71, 73, 87)
 
 timeLinePlot(
-  data=list(PressFreedomHU, PressFreedomPL),
+  data=list(PressFreedomPL, PressFreedomHU),
   yearsParam=2013:2019,
-  titleParam="Comparison Press Freedom Poland and Hungary",
+  titleParam="Press Freedom Poland and Hungary",
   xLabel = "Years",
   yLabel = "Ranking (out of 180)",
   verticalLines=list(list(x=2,label="PiS won election")),
