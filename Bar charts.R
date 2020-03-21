@@ -12,6 +12,7 @@ countries <- c("Poland", "Hungary")
 
 # Labels, the labels for the individual bars (vector)
 # Grouplabels, the labels for each group of bars (vector)
+# yLabels, labels for the y axis (vector)
 # Data, the data for all bars (vector)
 # y, min and max value for y axis (vector)
 barPlot <- function(labels, groupLabels, yLabels, data, y) {

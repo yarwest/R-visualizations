@@ -10,7 +10,8 @@ quarters <- c('Q1','Q2','Q3','Q4')
 countries <- c("Poland", "Hungary")
 colors <- c("#cd5038","#f7bb3d")
 
-# Function for generating yearly or quarterly labels
+# Function for generating yearly, bi-yearly or quarterly labels
+# quarterly, boolean indicating if the data is quarterly
 # Pass years as a vector
 # Pass the count of data points as a number
 generateLabels <- function(quarterly, yearsParam, nDataPoints) {
@@ -28,11 +29,15 @@ generateLabels <- function(quarterly, yearsParam, nDataPoints) {
 
 # Function for plotting progression as a line diagram
 # Pass data as a list of data collections
+# country, the country which the graph concerns
+# colorParam, the color to use for the line, points and the legend
 # Pass years as a vector
 # Pass a title
 # Optional label for x axis
 # Optional label for y axis
-# Pass a vector of vertical line points
+# Optional yAxisLabels, labels for the y axis (string vector)
+# Optional verticalLines, x value and label where to draw a vertical line (list of lists)
+# Optional xRecession, x value where to draw the recession line (number)
 # Optional restrictions for the y axis
 timeLinePlot <- function(data, yearsParam, country, colorParam, titleParam, xLabel="", yLabel="", yAxisLabels=c(), verticalLines=c(), xRecession=4, y=c(NA,NA)) {
   nDataSets <- length(data)
