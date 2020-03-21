@@ -39,7 +39,7 @@ timeLinePlot <- function(data, yearsParam, titleParam, xLabel="", yLabel="", yAx
   nDataPoints <- length(data[[1]])
   quarterly <- nDataPoints == (4 * length(yearsParam))
   labels <- generateLabels(quarterly, yearsParam, nDataPoints)
-  
+
   df <- data.frame(
     x=rep(c(labels), nDataSets),
     y=unlist(data),
@@ -47,6 +47,7 @@ timeLinePlot <- function(data, yearsParam, titleParam, xLabel="", yLabel="", yAx
   )
   
   df$x <- factor(df$x, levels=unique(df$x))
+  df$country <- factor(df$country, levels=unique(df$country))
   
   colSeq <- c(rep(colors[1],nDataPoints), rep(colors[2],nDataPoints))
   
@@ -103,7 +104,7 @@ timeLinePlot <- function(data, yearsParam, titleParam, xLabel="", yLabel="", yAx
     coord_cartesian(ylim = y) +
     scale_colour_manual(name="Countries",
                         breaks=colors,
-                        values=c("#f7bb3d"=colors[1], "#cd5038"=colors[2]),
+                        values=colors,
                         labels=countries)
 }
 
