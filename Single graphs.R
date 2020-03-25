@@ -44,7 +44,7 @@ timeLinePlot <- function(data, yearsParam, country, colorParam, titleParam, xLab
   nDataPoints <- length(data[[1]])
   quarterly <- nDataPoints == (4 * length(yearsParam))
   labels <- generateLabels(quarterly, yearsParam, nDataPoints)
-  
+
   df <- data.frame(
     x=rep(c(labels), nDataSets),
     y=unlist(data),
@@ -53,15 +53,33 @@ timeLinePlot <- function(data, yearsParam, country, colorParam, titleParam, xLab
 
   df$x <- factor(df$x, levels=unique(df$x))
   
+  zeroLine <- function(df) {
+    if(min(df$y) < 0) {
+      return(geom_hline(yintercept = 0, col="Black"))
+    }
+  }
+  
+  recessionLine <- function(xRecession) {
+    if(xRecession > 0) {
+      return(c(
+        geom_vline(xintercept=xRecession, col="Black", lty=2, lwd=1),
+        annotate("text", x=xRecession, label="Recession", vjust=-1, y=annotationY, angle=90, color="Black", size=5)
+      ))
+    }
+  }
+  
   if(!is.na(y[2])) {
-    annotationY <- y[2] - (y[2]*0.1)
+    offset = (y[2] - y[1]) * 0.1
+    annotationY <- y[2] - offset
   } else {
-    annotationY = mean(c(max(df$y), min(df$y)))
+    maxYVal = max(df$y)
+    offset = (maxYVal - min(df$y)) * 0.1
+    annotationY <- maxYVal - offset
   }
   drawVerticalLines <- function(line) {
     return (c(
-      annotate("text", x=line[[1]], label=line[[2]], vjust=-1, y=annotationY, angle=90, color="#4C4D4D", size=5),
-      geom_vline(xintercept = line[[1]], lty=3, lwd=1, color="#4C4D4D")
+      annotate("text", x=line[[1]], label=line[[2]], vjust=-1, y=annotationY, angle=90, color="Black", size=5),
+      geom_vline(xintercept = line[[1]], lty=3, lwd=1, color="Black")
     ))
   }
   
@@ -74,16 +92,15 @@ timeLinePlot <- function(data, yearsParam, country, colorParam, titleParam, xLab
   ggplot(df, aes(x=x, y=y, group=country, color=colorParam)) +
     geom_line(size=1, color=colorParam) +
     geom_point(size=2, color=colorParam) +
-    geom_hline(yintercept = 0, col="Black") +
-    geom_vline(xintercept=xRecession, col="Black", lty=3, lwd=2) +
-    annotate("text", x=xRecession, label="Recession", vjust=-1, y=annotationY, angle=90, color="#4C4D4D", size=5) +
+    zeroLine(df) +
+    recessionLine(xRecession) +
     lapply(X=verticalLines, FUN=drawVerticalLines) +
     ggtitle(titleParam) +
     labs(x=xLabel, y=yLabel) +
-    theme_light() +
+    theme_linedraw() +
     theme(
-      text = element_text(size=17, color="#4C4D4D"),
-      plot.title=element_text(hjust = 0.5),
+      text = element_text(size=16, color="Black"),
+      plot.title=element_text(hjust = 0.5, face="bold"),
       axis.text.x=element_text(angle= if(quarterly) 90 else 0),
       legend.position="none"
     ) +
@@ -91,73 +108,44 @@ timeLinePlot <- function(data, yearsParam, country, colorParam, titleParam, xLab
     coord_cartesian(ylim = y)
 }
 
-
 ######################
 # Poland
 ######################
 
+
 ######################
-# Real GDP change per quarter in percentage Poland
+# Gross Disposable Income of Households in real terms per capita Poland
 ######################
 
-realGDPChangePerQuarterPL <- c(1.5, 2.3, 1.7, -1.4, 4.5, 1.2, 1.7, 1.3, 2.0, 0.4, -0.4, 0.3, 1.7, 0.0, 0.6, 2.4, -0.6, 1.5, 1.4, 1.0, 1.3, 1.3, 1.3, 0.8, 0.1, -0.2, 0.4, -0.4, 0.2, 1.1, 0.8, 0.1, 1.1, 1.1, 0.8, 0.6, 1.2, 0.7, 1.2, 1.2)
+GDIHouseholdsPL <- c(18258,	18931,	18889,	19087,	18959,	19107,	20002,	21026,	21960,	23035,	23505,	23591,	23842,	24195,	24897,	25837,	27377,	28208)
+
 timeLinePlot(
-  data=list(realGDPChangePerQuarterPL),
-  yearsParam=2006:2015,
+  data=list(GDIHouseholdsPL),
+  yearsParam=2000:2017,
   country=countries[1],
-  color=colors[1],
-  titleParam="Real GDP growth rate per quarter in Poland",
-  xLabel="Quarters",
-  yLabel="GDP growth rate (in %)",
-  xRecession=9)
-
-######################
-# Real GDP change per year in percentage Poland
-######################
-
-realGDPChangePerYearPL <- c(7.0, 4.2, 2.8, 3.6, 5.0, 1.6, 1.4, 3.3, 3.8)
-timeLinePlot(
-  data=list(realGDPChangePerYearPL),
-  yearsParam=2007:2015,
-  country=countries[1],
-  color=colors[1],
-  titleParam="Real GDP growth rate per year in Poland",
+  colorParam=colors[1],
+  titleParam="Gross Disposable Income of Households in real terms per capita Poland",
   xLabel="Years",
-  yLabel="GDP growth rate (in %)",
-  xRecession=2)
+  yLabel="Gross Disposable Income (in PLN)",
+  verticalLines=list(list(x=16,label="Election PiS")),
+  xRecession=9)
 
 ######################
 # Hungary
 ######################
 
 ######################
-# Real GDP change per quarter in percentage Hungary
+# Gross Disposable Income of Households in real terms per capita Hungary
 ######################
 
-realGDPChangePerQuarterHU <- c(0.9,1.3,0.6,0.9,-1.3,-0.1,0.6,0.4,0.8,0.5,-0.2,-3.2,-4.2,-0.2,0.0,0.0,-0.2,0.7,0.6,0.1,0.9,0.0,0.3,0.9,-2.0,-0.3,0.4,-0.2,0.6,0.9,1.3,1.1,0.8,1.3,0.9,0.6,1.7,0.2,0.7,1.0)
+GDIHouseholdsHU <- c(1289063, 1359117, 1428376, 1527216, 1623920, 1702682, 1738129, 1686716, 1655776, 1594416, 1566814, 1628180, 1579022, 1614380, 1669150, 1736426, 1824989, 1908398)
 timeLinePlot(
-  data=list(realGDPChangePerQuarterHU),
-  yearsParam=2006:2015,
+  data=list(GDIHouseholdsHU),
+  yearsParam=2000:2017,
   country=countries[2],
-  color=colors[2],
-  titleParam="Real GDP growth rate per quarter in Hungary",
-  xLabel="Quarters",
-  yLabel="GDP growth rate (in %)",
-  verticalLines=list(list(x=18,label="Fidesz won election")),
-  xRecession=9)
-
-######################
-# Real GDP change per year in percentage Hungary
-######################
-
-realGDPChangePerYearHU <- c(0.2, 1.1, -6.7, 0.7, 1.8, -1.5, 2.0, 4.2, 3.8)
-timeLinePlot(
-  data=list(realGDPChangePerYearHU),
-  yearsParam=2007:2015,
-  country=countries[2],
-  color=colors[2],
-  titleParam="Real GDP growth rate per year in Hungary",
+  colorParam=colors[2],
+  titleParam="Gross Disposable Income of Households in real terms per capita Hungary",
   xLabel="Years",
-  yLabel="GDP growth rate (in %)",
-  verticalLines=list(list(x=5,label="Fidesz won election")),
-  xRecession=2)
+  yLabel="Gross disposable income (in HUF)",
+  verticalLines=list(list(x=11,label="Election Fidesz")),
+  xRecession=9)

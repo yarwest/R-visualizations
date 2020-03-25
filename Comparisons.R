@@ -42,7 +42,7 @@ timeLinePlot <- function(data, yearsParam, titleParam, xLabel="", yLabel="", yAx
   nDataPoints <- length(data[[1]])
   quarterly <- nDataPoints == (4 * length(yearsParam))
   labels <- generateLabels(quarterly, yearsParam, nDataPoints)
-
+  
   df <- data.frame(
     x=rep(c(labels), nDataSets),
     y=unlist(data),
@@ -63,22 +63,24 @@ timeLinePlot <- function(data, yearsParam, titleParam, xLabel="", yLabel="", yAx
   recessionLine <- function(xRecession) {
     if(xRecession > 0) {
       return(c(
-        geom_vline(xintercept=xRecession, col="Black", lty=3, lwd=2),
-        annotate("text", x=xRecession, label="Recession", vjust=-1, y=annotationY, angle=90, color="#4C4D4D", size=5)
+        geom_vline(xintercept=xRecession, col="Black", lty=2, lwd=1),
+        annotate("text", x=xRecession, label="Recession", vjust=-1, y=annotationY, angle=90, color="Black", size=5)
       ))
     }
   }
   
   if(!is.na(y[2])) {
-    annotationY <- y[2] - (y[2]*0.1)
+    offset = (y[2] - y[1]) * 0.1
+    annotationY <- y[2] - offset
   } else {
     maxYVal = max(df$y)
-    annotationY <- maxYVal - (maxYVal*0.25)
+    offset = (maxYVal - min(df$y)) * 0.1
+    annotationY <- maxYVal - offset
   }
   drawVerticalLines <- function(line) {
     return (c(
-      annotate("text", x=line[[1]], label=line[[2]], vjust=-1, y=annotationY, angle=90, color="#4C4D4D", size=5),
-      geom_vline(xintercept = line[[1]], lty=3, lwd=1, color="#4C4D4D")
+      annotate("text", x=line[[1]], label=line[[2]], vjust=-1, y=annotationY, angle=90, color="Black", size=5),
+      geom_vline(xintercept = line[[1]], lty=3, lwd=1, color="Black")
     ))
   }
   
@@ -96,10 +98,10 @@ timeLinePlot <- function(data, yearsParam, titleParam, xLabel="", yLabel="", yAx
     lapply(X=verticalLines, FUN=drawVerticalLines) +
     ggtitle(titleParam) +
     labs(x=xLabel, y=yLabel) +
-    theme_light() +
+    theme_linedraw() +
     theme(
-      text = element_text(size=17, color="#4C4D4D"),
-      plot.title=element_text(hjust = 0.5),
+      text = element_text(size=16, color="Black"),
+      plot.title=element_text(hjust = 0.5, face="bold"),
       axis.text.x=element_text(angle= if(quarterly) 90 else 0),
       legend.position=c(0.9,0.1)
     ) +
@@ -121,26 +123,10 @@ realGDPChangePerQuarterHU <- c(0.9,1.3,0.6,0.9,-1.3,-0.1,0.6,0.4,0.8,0.5,-0.2,-3
 timeLinePlot(
   data=list(realGDPChangePerQuarterPL, realGDPChangePerQuarterHU),
   yearsParam=2006:2015,
-  titleParam="Real GDP growth rate per quarter Poland and Hungary",
-  xLabel="Quarters",
-  yLabel="GDP growth rate (in %)",
-  verticalLines=list(list(x=18,label="Fidesz won election")),
-  xRecession=9)
-
-######################
-# Comparison Gross Disposable Income of Households in real terms per capita Poland and Hungary
-######################
-
-GDIHouseholdsPL <- c(20002, 21026,	21960,	23035,	23505,	23591,	23842,	24195,	24897,	25837)
-GDIHouseholdsHU <- c(1738129,	1686716,	1655776,	1594416,	1566814,	1628180,	1579022,	1614380,	1669150,	1736426)
-
-timeLinePlot(
-  data=list(GDIHouseholdsPL, GDIHouseholdsHU),
-  yearsParam=2006:2015,
-  titleParam="Gross Disposable Income of Households in real terms per capita Poland and Hungary",
-  xLabel="Years",
-  yLabel="Gross disposable income (in Units of National Currency)",
-  verticalLines=list(list(x=18,label="Fidesz won election")),
+  titleParam="Real GDP Growth Rate in Poland and Hungary (Quarterly Data)",
+  xLabel="Year",
+  yLabel="GDP Growth Rate (in %)",
+  verticalLines=list(list(x=18,label="Election Fidesz")),
   xRecession=9)
 
 ######################
@@ -153,11 +139,12 @@ employmentRateHU <- c(61.9, 62.0, 61.9, 62.2, 61.9, 61.7, 61.5, 61.5, 61.1, 61.0
 timeLinePlot(
   data=list(employmentRatePL, employmentRateHU),
   yearsParam=2006:2015,
-  titleParam="Employment rate per quarter Poland and Hungary",
+  titleParam="Employment Rate in Poland and Hungary (Quarterly Data)",
   xLabel="Years",
-  yLabel="Employment rate (in %)",
-  verticalLines=list(list(x=18,label="Fidesz won election")),
-  xRecession=9)
+  yLabel="Employment Rate (in %)",
+  verticalLines=list(list(x=18,label="Election Fidesz")),
+  xRecession=9,
+  y=c(61,69))
 
 ######################
 # Mean Comparison Satisfaction National Economy Poland and Hungary_Only PiS and Fidesz
@@ -174,7 +161,7 @@ timeLinePlot(
   xLabel = "Years",
   yLabel = "Satisfaction (Mean Value)",
   yAxisLabels = possibleAnswers,
-  verticalLines=list(list(x=5,label="Fidesz won election"), list(x=7.5,label="PiS won election")),
+  verticalLines=list(list(x=5,label="Election Fidesz"), list(x=7.5,label="Election PiS")),
   y=c(0,10))
 
 ######################
@@ -192,7 +179,7 @@ timeLinePlot(
   xLabel = "Years",
   yLabel = "Satisfaction (Mean Value)",
   yAxisLabels = possibleAnswers,
-  verticalLines=list(list(x=5,label="Fidesz won election"), list(x=7.5,label="PiS won election")),
+  verticalLines=list(list(x=5,label="Election Fidesz"), list(x=7.5,label="Election PiS")),
   y=c(0,10))
 
 ######################
@@ -205,9 +192,9 @@ PressFreedomHU <- c(56, 64, 65, 67, 71, 73, 87)
 timeLinePlot(
   data=list(PressFreedomPL, PressFreedomHU),
   yearsParam=2013:2019,
-  titleParam="Press Freedom Poland and Hungary",
+  titleParam="Freedom of Press in Poland and Hungary",
   xLabel = "Years",
   yLabel = "Ranking (out of 180)",
-  verticalLines=list(list(x=2,label="PiS won election")),
+  verticalLines=list(list(x=3,label="Election PiS")),
   xRecession=-1,
   y=c(0,90))
