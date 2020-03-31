@@ -42,14 +42,15 @@ barPlot <- function(labels, groupLabels, yLabels, data, y) {
   ggplot(data=transform(df, x=xSeq), aes(x=x, y=y, fill=Countries)) +
     geom_histogram(stat = "identity") + labs(x="", y="") +
     scale_x_discrete(breaks = NULL) +
-    geom_text(aes(x=xSeq, y=df$y, label=df$y), vjust=-1) +
-    geom_text(aes(x=xSeq, y=1, label=labels), vjust=2) +
+    geom_text(aes(x=xSeq, y=df$y, label=df$y), vjust=-1, size=4, color="Black") +
+    geom_text(aes(x=xSeq, y=1, label=labels), vjust=2, size=4, color="Black") +
     scale_x_continuous(breaks=xGroups, labels=groupLabels) +
     scale_y_continuous(breaks=c(y[1]:y[2]), labels=yLabels) +
     coord_cartesian(ylim = y) +
     theme_linedraw() +
     theme(
       text = element_text(size=16, color="Black"),
+      axis.text.x=element_text(size=14, color="Black", face="bold"),
       legend.position=c(0.9,0.8)
     ) +
     scale_fill_manual(values=colors)
@@ -60,17 +61,17 @@ labels <- rep(c(2008, 2016), 2)
 questions <- c("Of every 100 working age how many unemployed and looking for work?")
 possibleAnswers <- c("0-4", "5-9", "10-14", "15-19", "20-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50 or more")
 
-pl <- c(3.67, 3.07)
-hu <- c(6.31, 3.93)
+pl <- c(3.71, 3.08)
+hu <- c(6.54, 3.92)
 data <- c(pl, hu)
 
 barPlot(labels, questions, possibleAnswers, data, y=c(1,11))
 
 ## question 2 & 3
 labels <- rep(c(2008, 2016), 4)
-questions <- c("How likely unemployed/nand looking for work next 12 months?", "How likely not enough money for household \n necessities next 12 months?")
+questions <- c("How likely unemployed\nand looking for work next 12 months?", "How likely not enough money for household \n necessities next 12 months?")
 possibleAnswers <- c("Not likely at all", "Not very likely", "Likely", "Very likely")
 
-data <- c(2.25, 2.33, 1.93, 1.58, 1.38, 1.07, 1.36, 0.994)
+data <- c(2.23, 2.3, 1.86, 1.54, 1.39, 1.07, 1.36, 0.985)
 
 barPlot(labels, questions, possibleAnswers, data, y=c(1,4))
