@@ -33,7 +33,7 @@ generateLabels <- function(quarterly, yearsParam, nDataPoints) {
 # Pass a title
 # Optional label for x axis
 # Optional label for y axis
-# Optional yAxisLabels, labels for the y axis (string vector)
+# Optional yAxisLabels, labels for the y axis, if an int vector is passed, those numbers are used as the position on the y axis too (string or int vector)
 # Optional verticalLines, x value and label where to draw a vertical line (list of lists)
 # Optional xRecession, x value where to draw the recession line (number)
 # Optional restrictions for the y axis
@@ -86,7 +86,11 @@ timeLinePlot <- function(data, yearsParam, titleParam, xLabel="", yLabel="", yAx
   
   alterYAxis <- function(yAxisLabels) {
     if (length(yAxisLabels) > 0) {
-      scale_y_continuous(breaks=c(y[1]:y[2]), labels=yAxisLabels)
+      if (is.character(yAxisLabels[1])) {
+        scale_y_continuous(breaks=c(y[1]:y[2]), labels=yAxisLabels)
+      } else {
+        scale_y_continuous(breaks=yAxisLabels, labels=yAxisLabels)
+      }
     }
   }
   
@@ -144,6 +148,7 @@ timeLinePlot(
   yLabel="Employment Rate (in %)",
   verticalLines=list(list(x=18,label="Election Fidesz")),
   xRecession=9,
+  yAxisLabels=seq(from=62, to=68, by=2),
   y=c(61,69))
 
 ######################
