@@ -37,9 +37,10 @@ generateLabels <- function(quarterly, yearsParam, nDataPoints) {
 # Optional label for y axis
 # Optional yAxisLabels, labels for the y axis, if an int vector is passed, those numbers are used as the position on the y axis too (string or int vector)
 # Optional verticalLines, x value and label where to draw a vertical line (list of lists)
+# Optional minorLines, display minor horizontal lines (boolean)
 # Optional xRecession, x value where to draw the recession line (number)
 # Optional restrictions for the y axis
-timeLinePlot <- function(data, yearsParam, country, colorParam, titleParam, xLabel="", yLabel="", yAxisLabels=c(), verticalLines=c(), xRecession=4, y=c(NA,NA)) {
+timeLinePlot <- function(data, yearsParam, country, colorParam, titleParam, xLabel="", yLabel="", yAxisLabels=c(), verticalLines=c(), minorLines=FALSE, xRecession=4, y=c(NA,NA)) {
   nDataSets <- length(data)
   nDataPoints <- length(data[[1]])
   quarterly <- nDataPoints == (4 * length(yearsParam))
@@ -93,6 +94,12 @@ timeLinePlot <- function(data, yearsParam, country, colorParam, titleParam, xLab
     }
   }
   
+  drawMinorLines <- function(minorLines) {
+    if (!minorLines) {
+      return(theme(panel.grid.minor.y = element_blank()))
+    }
+  }
+  
   ggplot(df, aes(x=x, y=y, group=country, color=colorParam)) +
     geom_line(size=1, color=colorParam) +
     geom_point(size=2, color=colorParam) +
@@ -108,6 +115,7 @@ timeLinePlot <- function(data, yearsParam, country, colorParam, titleParam, xLab
       axis.text.x=element_text(angle= if(quarterly) 90 else 0),
       legend.position="none"
     ) +
+    drawMinorLines(minorLines) +
     alterYAxis(yAxisLabels) +
     coord_cartesian(ylim = y)
 }
