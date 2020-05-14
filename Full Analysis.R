@@ -46,7 +46,7 @@ ggerrorplot(subset(FULL_PL_HU, Country=="PL"), x = "Year", y = "Satisfaction",
 ########################################################
 ###   Poland Satisfaction - Comparison 2008 & 2014   ###
 ########################################################
-ggerrorplot(subset(FULL_PL_HU, Country=="PL" & Year == "2008" | Country=="PL" & Year == "2014"), x="Year", y="Satisfaction", 
+ggerrorplot(subset(FULL_PL_HU, Country=="PL" & (Year == "2008" | Year == "2014")), x="Year", y="Satisfaction", 
             desc_stat = "median_mad", error.plot = "errorbar", add="median", 
             ylab = "Satisfaction (Median)", xlab = "Year") +
   expand_limits(y=c(0,10)) +
@@ -59,7 +59,7 @@ ggerrorplot(subset(FULL_PL_HU, Country=="PL" & Year == "2008" | Country=="PL" & 
 ###########################################################
 ### Poland Satisfaction 2008 & 2014 - Significance Test ###
 ###########################################################
-PL_Test<-subset(FULL_PL_HU, Country=="PL" & Year == "2008" | Country=="PL" & Year == "2014")
+PL_Test<-subset(FULL_PL_HU, Country=="PL" & (Year == "2008" | Year == "2014"))
 wilcox.test(PL_Test$Year, 
             PL_Test$Satisfaction, alternative = c("greater"), 
             paired = FALSE, exact = NULL, correct = TRUE, 
@@ -89,7 +89,7 @@ ggerrorplot(subset(FULL_PL_HU, Country=="HU"), x = "Year", y = "Satisfaction",
 ###########################################################
 ###   Hungary Satisfaction - Comparison 2008 & 2010     ###
 ###########################################################
-ggerrorplot(subset(FULL_PL_HU, Country=="HU" & Year == "2008" | Country=="HU" & Year == "2010"), x="Year", y="Satisfaction", 
+ggerrorplot(subset(FULL_PL_HU, Country=="HU" & (Year == "2008" | Year == "2010")), x="Year", y="Satisfaction", 
             desc_stat = "median_mad", error.plot = "errorbar", add="median", 
             ylab = "Satisfaction (Median)", xlab = "Year") +
   expand_limits(y=c(0,10)) +
@@ -102,7 +102,7 @@ ggerrorplot(subset(FULL_PL_HU, Country=="HU" & Year == "2008" | Country=="HU" & 
 ###########################################################
 ### Hungary Satisfaction 2008 & 2010 - Significance Test ##
 ###########################################################
-HU_Test<-subset(FULL_PL_HU, Country=="HU" & Year == "2008" | Country=="HU" & Year == "2010")
+HU_Test<-subset(FULL_PL_HU, Country=="HU" & ( Year == "2008" | Year == "2010"))
 
 wilcox.test(HU_Test$Year, HU_Test$Satisfaction, alternative = c("greater"), 
             paired = FALSE, exact = NULL, correct = TRUE, 
