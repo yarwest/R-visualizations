@@ -19,7 +19,7 @@ generateLabels <- function(quarterly, yearsParam, nDataPoints) {
   # Check if there are 4 times as many data points as there are years (which means the data is quarterly)
   # If it is quarterly generate quarterly labels, otherwise just use the years
   if(quarterly) {
-    return(apply(expand.grid(quarters=quarters, years=years), 1, paste, collapse=" "))
+    return(apply(expand.grid(years=years, quarters=quarters), 1, paste, collapse=" "))
   }
   if(nDataPoints == ((length(years)+1) /2)) {
     return(years[(1:nDataPoints) * 2 - 1])

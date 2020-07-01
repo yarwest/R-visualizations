@@ -30,7 +30,7 @@ t.test(tTestData$Year, tTestData$Situation_Nat_Economy,
 
 ### Percent stacked bar chart - Poland ###
 
-answers = subset(TOTAL_Cleaned[order(TOTAL_Cleaned$Situation_Nat_Economy),], Country=="PL" & !is.na(Situation_Nat_Economy))
+answers = subset(TOTAL_Cleaned[order(TOTAL_Cleaned$Situation_Nat_Economy),], Country=="PL" & !is.na(Situation_Nat_Economy) & Situation_Nat_Economy != 5 & Situation_Nat_Economy != 0)
 answers$Situation_Nat_Economy_String = unlist(lapply(answers$Situation_Nat_Economy, toString))
 percentile = quantile(answers$Situation_Nat_Economy, probs = seq(0, 1, by=1/length(answers$Situation_Nat_Economy)))
 percentageLabels = paste(seq(0, 1, by=0.05) * 100, "%", sep="")
@@ -41,17 +41,18 @@ ggplot(answers, aes(fill=Situation_Nat_Economy_String, group=Year, y=tail(percen
   geom_col(position="fill", width=.4) +
   scale_x_discrete(breaks=years, labels=years) +
   scale_y_continuous(breaks=seq(0, 1, by= 0.05), labels = percentageLabels) +
-  scale_fill_manual(values=c('1'="#999999", '2'="#E69F00", '3'="#123123","4","#000000"), name="Response", breaks=c('1','2','3','4'), labels=answerLabels) +
+  scale_fill_manual(values=c('1'="#999999", '2'="#E69F00", '3'="#123123","4"="#000000"), name="Response", breaks=c('1','2','3','4'), labels=answerLabels) +
   labs(x = 'Year', y='Response Percentage') +
   theme_minimal() +
   theme(text = element_text(size=16, color="Black"),
         axis.text.x = element_text(angle = 90),
         plot.title=element_text(hjust = 0.5, face="bold")) +
-  coord_cartesian(ylim = c(0,100))
+  coord_cartesian(ylim = c(0,1))
 
 ## issues_economic && issues_unemployment
 
 polandData <- subset(TOTAL_Cleaned, Country=="PL")
+years = unique(TOTAL_Cleaned$Year)
 
 issuesEconomicPercentages <- lapply(years, function(x) {
   roundData = subset(polandData, Year==x)
